@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.stack.implementation;
+package ua.com.bpgdev.javabegins.datastructures.stack.implementations;
 
 import ua.com.bpgdev.javabegins.datastructures.stack.interfaces.Stack;
 

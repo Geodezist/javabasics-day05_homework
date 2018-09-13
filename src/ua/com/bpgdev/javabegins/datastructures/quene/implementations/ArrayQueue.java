@@ -10,18 +10,18 @@ public class ArrayQueue implements Queue {
     private Object[] array;
     private int size;
 
-    private final int INITIALCAPACITY = 5;
-    private final double GROWSIZE = 1.5;
+    private final int INITIAL_CAPACITY = 5;
+    private final double GROW_SIZE = 1.5;
 
 
     public ArrayQueue() {
-        array = new Object[INITIALCAPACITY];
+        array = new Object[INITIAL_CAPACITY];
     }
 
     @Override
     public void enqueue(Object value) {
         if (size == array.length) {
-            Object[] newArray = new Object[(int) (array.length * GROWSIZE)];
+            Object[] newArray = new Object[(int) (array.length * GROW_SIZE)];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
         }

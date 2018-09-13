@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.list.implementation;
+package ua.com.bpgdev.javabegins.datastructures.list.implementations;
 
 import ua.com.bpgdev.javabegins.datastructures.list.interfaces.List;
 
