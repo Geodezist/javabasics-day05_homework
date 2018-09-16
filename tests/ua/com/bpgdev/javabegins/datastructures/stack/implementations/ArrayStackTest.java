@@ -27,7 +27,6 @@ public class ArrayStackTest {
     public void testPushAndPopWithGrow() {
         Stack stack = new ArrayStack();
 
-
         for (int i = 0; i < 10; i++) {
             char valueToAdd = (char) ('A' + i);
             stack.push(valueToAdd);
@@ -41,7 +40,6 @@ public class ArrayStackTest {
 
             assertEquals(expectedValue, stack.pop());
         }
-
         assertEquals(0, stack.size());
     }
 
@@ -63,8 +61,44 @@ public class ArrayStackTest {
     @Test(expected = NoSuchElementException.class)
     public void testPushThrowNoSuchElementIfSizeIsZero() {
         Stack stack = new ArrayStack();
-
         stack.pop();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPushThrowIllegalArgumentNull() {
+        Stack stack = new ArrayStack();
+        stack.push(null);
+    }
+
+
+    @Test
+    public void testRemove(){
+        Stack stack = new ArrayStack();
+        stack.push("F");
+        stack.push("A");
+        stack.push("B");
+        stack.push("C");
+
+        stack.remove("B");
+        assertEquals(3,stack.size());
+
+    }
+
+    @Test
+    public void testRemoveAll(){
+        ArrayStack arrayStack = new ArrayStack();
+        arrayStack.push("B");
+        arrayStack.push("B");
+        arrayStack.push("B");
+        arrayStack.push("B");
+        arrayStack.push("A");
+        arrayStack.push("B");
+        arrayStack.push("B");
+        arrayStack.push("C");
+        arrayStack.push("B");
+
+        arrayStack.removeAll("B");
+        assertEquals(2, arrayStack.size());
     }
 
 }

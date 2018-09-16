@@ -2,37 +2,39 @@ package ua.com.bpgdev.javabegins.datastructures.stack.implementations;
 
 import ua.com.bpgdev.javabegins.datastructures.stack.interfaces.Stack;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class ArrayStack implements Stack {
 
-    Object[] array;
-    int size;
-    private final int initialCapacity = 5;
+    private Object[] array;
+    private int size;
+    private final int INITIAL_CAPACITY = 5;
 
     public ArrayStack() {
-        array = new Object[initialCapacity];
+        array = new Object[INITIAL_CAPACITY];
+    }
+
+    public ArrayStack(int customInitialCapacity) {
+        array = new Object[customInitialCapacity];
     }
 
     @Override
     public void push(Object value) {
-        // TODO: check if array is full, create new, and copy values from old one
+        validateNullValue(value);
         if (size == array.length) {
-            Object[] newArray = new Object[size + initialCapacity];
-            System.arraycopy(array, 0, newArray, 0, array.length);
+            Object[] newArray = new Object[(int) (size * 1.5 + 1)];
+            System.arraycopy(array, 0, newArray, 0, size);
             array = newArray;
-            System.out.println(array.length);
         }
         array[size] = value;
         size++;
     }
 
+
     @Override
     public Object pop() {
-        if (size == 0) {
-            throw new NoSuchElementException();
-        }
-
+        validateSize();
         Object result = array[size - 1];
         array[size - 1] = null;
         size--;
@@ -41,9 +43,7 @@ public class ArrayStack implements Stack {
 
     @Override
     public Object peek() {
-        if (size == 0) {
-            throw new NoSuchElementException();
-        }
+        validateSize();
         return array[size - 1];
     }
 
@@ -54,20 +54,37 @@ public class ArrayStack implements Stack {
 
     @Override
     public boolean remove(Object value) {
-        boolean result = false;
+        validateNullValue(value);
         for (int index = 0; index < size; index++) {
             if (array[index].equals(value)) {
-                array[index] = null;
-                System.arraycopy(array, index - 1, array, index + 1, array.length - index - 1);
+                System.arraycopy(array, index + 1, array, index, size - index - 1);
                 size--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeAll(Object value) {
+        validateNullValue(value);
+        boolean result = false;
+        int index = 0;
+        while (index < size) {
+            if (array[index].equals(value)) {
+                System.arraycopy(array, index + 1, array, index, size - index - 1);
+                array[size - 1] = null;
+                size--;
+                index--;
                 result = true;
             }
+            index++;
         }
         return result;
     }
 
     @Override
     public boolean contains(Object value) {
+        validateNullValue(value);
         for (int index = 0; index < size; index++) {
             if (array[index].equals(value)) {
                 return true;
@@ -76,12 +93,24 @@ public class ArrayStack implements Stack {
         return false;
     }
 
-    public void printStack() {
-        for (int index = 0; index < size(); index++) {
-            System.out.println(array[index].toString());
-        }
-
+    @Override
+    public String toString() {
+        return "ArrayStack{" +
+                "array=" + Arrays.toString(array) +
+                ", size=" + size +
+                '}';
     }
 
+    private void validateSize() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+    }
+
+    private void validateNullValue(Object value) {
+        if (value == null){
+            throw new IllegalArgumentException("Value can't be null.");
+        }
+    }
 
 }

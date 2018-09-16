@@ -2,6 +2,8 @@ package ua.com.bpgdev.javabegins.datastructures.quene.implementations;
 
 import ua.com.bpgdev.javabegins.datastructures.quene.interfaces.Queue;
 
+import java.util.NoSuchElementException;
+
 public class LinkedQueue implements Queue {
     private int size;
     private Node head;
@@ -10,8 +12,9 @@ public class LinkedQueue implements Queue {
 
     @Override
     public void enqueue(Object value) {
+        validateNullValue(value);
         Node newNode = new Node(value);
-        if (size == 0){
+        if (size == 0) {
             head = newNode;
             last = newNode;
         } else {
@@ -23,7 +26,7 @@ public class LinkedQueue implements Queue {
 
     @Override
     public Object dequeue() {
-        validateQueue();
+        validateSize();
         Node result = head;
         head = head.nextNode;
         if (size != 1) {
@@ -45,12 +48,20 @@ public class LinkedQueue implements Queue {
 
     @Override
     public boolean remove(Object value) {
+        validateNullValue(value);
+        Node prevNode = null;
         Node currentNode = head;
         for (int index = 0; index < size; index++) {
-            if (currentNode.value.equals(value)){
-
+            if (currentNode.value.equals(value)) {
+                if (prevNode != null) {
+                    prevNode.nextNode = currentNode.nextNode;
+                } else {
+                    head = head.nextNode;
+                }
+                size--;
                 return true;
             }
+            prevNode = currentNode;
             currentNode = currentNode.nextNode;
         }
         return false;
@@ -58,9 +69,10 @@ public class LinkedQueue implements Queue {
 
     @Override
     public boolean contains(Object value) {
+        validateNullValue(value);
         Node currentNode = head;
         for (int index = 0; index < size; index++) {
-            if (currentNode.value.equals(value)){
+            if (currentNode.value.equals(value)) {
                 return true;
             }
             currentNode = currentNode.nextNode;
@@ -73,10 +85,29 @@ public class LinkedQueue implements Queue {
         return null;
     }
 
-    public void validateQueue(){
-        if (size == 0){
-            throw new NullPointerException("Size of Queue = " + Integer.toString(size) + ". Maybe the Queue is empty.");
+    private void validateSize() {
+        if (size == 0) {
+            throw new NoSuchElementException();
         }
     }
 
+    private void validateNullValue(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("Value can't be null.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        Node currentNode = this.head;
+        for (int index = 0; index < size; index++) {
+            result += currentNode.value.toString() + "; ";
+            currentNode = currentNode.nextNode;
+        }
+        return "LinkedQueue{" +
+                "size=" + size +
+                "contains=" + result +
+                '}';
+    }
 }
