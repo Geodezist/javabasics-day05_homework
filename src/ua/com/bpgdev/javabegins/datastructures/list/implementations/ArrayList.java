@@ -2,13 +2,15 @@ package ua.com.bpgdev.javabegins.datastructures.list.implementations;
 
 import ua.com.bpgdev.javabegins.datastructures.list.interfaces.List;
 
+import java.util.stream.IntStream;
+
 // TDD
 // Ctrl + Shift + T
 public class ArrayList implements List {
     private final int INITIAL_CAPACITY = 5;
     private final int currentCapacity;
-    Object[] array;
-    int size;
+    private Object[] array;
+    private int size;
 
     public ArrayList() {
         validateInitialCapacity(INITIAL_CAPACITY);
@@ -82,17 +84,45 @@ public class ArrayList implements List {
 
     @Override
     public boolean contains(Object value) {
+        validateNullValue(value);
+        for (Object o : array) {
+            if (value.equals(o)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public int indexOf(Object value) {
-        return 0;
+        validateNullValue(value);
+        return IntStream.range(0, size).filter(index -> value.equals(array[index])).findFirst().orElse(-1);
     }
 
     @Override
     public int lastIndexOf(Object value) {
-        return 0;
+        validateNullValue(value);
+        for (int index = size - 1, lastIndex = 0; index >= 0; index--, lastIndex++) {
+            if (value.equals(array[index])) {
+                return lastIndex;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String toString() {
+        if (size == 0)
+            return "[]";
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0; ; i++) {
+            b.append(String.valueOf(array[i]));
+            if (i == size - 1)
+                return b.append(']').toString();
+            b.append(", ");
+        }
     }
 
     private void validateNullValue(Object object) {
