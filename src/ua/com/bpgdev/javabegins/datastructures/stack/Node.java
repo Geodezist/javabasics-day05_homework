@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.stack.implementations;
+package ua.com.bpgdev.javabegins.datastructures.stack;
 
 public class Node {
     Object value;

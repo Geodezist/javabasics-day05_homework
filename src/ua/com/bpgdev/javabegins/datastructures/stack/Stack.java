@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.stack.interfaces;
+package ua.com.bpgdev.javabegins.datastructures.stack;
 
 public interface Stack {
 

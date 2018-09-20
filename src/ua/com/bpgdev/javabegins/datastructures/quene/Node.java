@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.quene.implementations;
+package ua.com.bpgdev.javabegins.datastructures.quene;
 
 public class Node {
     Object value;

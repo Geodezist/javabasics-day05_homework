@@ -1,6 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.list.implementations;
-
-import ua.com.bpgdev.javabegins.datastructures.list.interfaces.List;
+package ua.com.bpgdev.javabegins.datastructures.list;
 
 import java.util.stream.IntStream;
 

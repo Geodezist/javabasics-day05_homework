@@ -1,6 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.quene.implementations;
-
-import ua.com.bpgdev.javabegins.datastructures.quene.interfaces.Queue;
+package ua.com.bpgdev.javabegins.datastructures.quene;
 
 import java.util.NoSuchElementException;
 

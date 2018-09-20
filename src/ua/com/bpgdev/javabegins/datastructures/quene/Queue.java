@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.quene.interfaces;
+package ua.com.bpgdev.javabegins.datastructures.quene;
 
 public interface Queue {
 

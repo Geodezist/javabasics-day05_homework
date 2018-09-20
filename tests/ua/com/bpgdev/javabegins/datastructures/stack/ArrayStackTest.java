@@ -1,7 +1,8 @@
-package ua.com.bpgdev.javabegins.datastructures.stack.implementations;
+package ua.com.bpgdev.javabegins.datastructures.stack;
 
 import org.junit.Test;
-import ua.com.bpgdev.javabegins.datastructures.stack.interfaces.Stack;
+import ua.com.bpgdev.javabegins.datastructures.stack.ArrayStack;
+import ua.com.bpgdev.javabegins.datastructures.stack.Stack;
 
 import static org.junit.Assert.assertEquals;
 import java.util.NoSuchElementException;

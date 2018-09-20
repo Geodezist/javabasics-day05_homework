@@ -1,6 +1,7 @@
-package ua.com.bpgdev.javabegins.datastructures.list.implementations;
+package ua.com.bpgdev.javabegins.datastructures.list;
 
-import ua.com.bpgdev.javabegins.datastructures.list.interfaces.List;
+import ua.com.bpgdev.javabegins.datastructures.list.ArrayList;
+import ua.com.bpgdev.javabegins.datastructures.list.List;
 import org.junit.Before;
 import org.junit.Test;
 

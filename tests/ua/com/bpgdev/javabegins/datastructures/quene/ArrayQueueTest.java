@@ -1,4 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.quene.implementations;
+package ua.com.bpgdev.javabegins.datastructures.quene;
 
 import org.junit.Test;
 
@@ -6,7 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.NoSuchElementException;
 
-import ua.com.bpgdev.javabegins.datastructures.quene.interfaces.Queue;
+import ua.com.bpgdev.javabegins.datastructures.quene.ArrayQueue;
+import ua.com.bpgdev.javabegins.datastructures.quene.Queue;
 
 public class ArrayQueueTest {
 

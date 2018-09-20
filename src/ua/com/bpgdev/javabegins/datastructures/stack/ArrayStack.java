@@ -1,6 +1,4 @@
-package ua.com.bpgdev.javabegins.datastructures.stack.implementations;
-
-import ua.com.bpgdev.javabegins.datastructures.stack.interfaces.Stack;
+package ua.com.bpgdev.javabegins.datastructures.stack;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

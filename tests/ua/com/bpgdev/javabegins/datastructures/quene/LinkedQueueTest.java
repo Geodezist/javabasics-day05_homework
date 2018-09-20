@@ -1,8 +1,9 @@
-package ua.com.bpgdev.javabegins.datastructures.quene.implementations;
+package ua.com.bpgdev.javabegins.datastructures.quene;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.bpgdev.javabegins.datastructures.quene.interfaces.Queue;
+import ua.com.bpgdev.javabegins.datastructures.quene.LinkedQueue;
+import ua.com.bpgdev.javabegins.datastructures.quene.Queue;
 
 import java.util.NoSuchElementException;
 
