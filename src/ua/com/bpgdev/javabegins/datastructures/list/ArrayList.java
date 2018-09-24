@@ -4,11 +4,10 @@ import java.util.stream.IntStream;
 
 // TDD
 // Ctrl + Shift + T
-public class ArrayList implements List {
+public class ArrayList extends AbstractList implements List {
     private final int INITIAL_CAPACITY = 5;
     private final int currentCapacity;
     private Object[] array;
-    private int size;
 
     public ArrayList() {
         validateInitialCapacity(INITIAL_CAPACITY);
@@ -24,7 +23,6 @@ public class ArrayList implements List {
 
     @Override
     public void add(Object value) {
-        validateNullValue(value);
         extendArray();
         array[size] = value;
         size++;
@@ -32,8 +30,7 @@ public class ArrayList implements List {
 
     @Override
     public void add(Object value, int index) {
-        validateNullValue(value);
-        validateIndex(index);
+        validateIndexForAdd(index);
         extendArray();
         System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = value;
@@ -57,7 +54,6 @@ public class ArrayList implements List {
 
     @Override
     public Object set(Object value, int index) {
-        validateNullValue(value);
         validateIndex(index);
         Object result = array[index];
         array[index] = value;
@@ -82,7 +78,6 @@ public class ArrayList implements List {
 
     @Override
     public boolean contains(Object value) {
-        validateNullValue(value);
         for (Object o : array) {
             if (value.equals(o)) {
                 return true;
@@ -93,16 +88,14 @@ public class ArrayList implements List {
 
     @Override
     public int indexOf(Object value) {
-        validateNullValue(value);
-        return IntStream.range(0, size).filter(index -> value.equals(array[index])).findFirst().orElse(-1);
+        return IntStream.range(0, size).filter(index -> isEqualWithNulls(value, array[index])).findFirst().orElse(-1);
     }
 
     @Override
     public int lastIndexOf(Object value) {
-        validateNullValue(value);
-        for (int index = size - 1, lastIndex = 0; index >= 0; index--, lastIndex++) {
-            if (value.equals(array[index])) {
-                return lastIndex;
+        for (int index = size - 1; index >= 0; index--) {
+            if (isEqualWithNulls(value, array[index])){
+                return index;
             }
         }
         return -1;
@@ -120,18 +113,6 @@ public class ArrayList implements List {
             if (i == size - 1)
                 return b.append(']').toString();
             b.append(", ");
-        }
-    }
-
-    private void validateNullValue(Object object) {
-        if (object == null) {
-            throw new IllegalArgumentException("Value can't be null.");
-        }
-    }
-
-    private void validateIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
         }
     }
 

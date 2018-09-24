@@ -2,10 +2,9 @@ package ua.com.bpgdev.javabegins.datastructures.list;
 
 import java.util.stream.IntStream;
 
-public class LinkedList implements List {
+public class LinkedList extends AbstractList implements List {
     private Node tail;
     private Node head;
-    private int size;
 
 
     @Override
@@ -124,9 +123,7 @@ public class LinkedList implements List {
     public int indexOf(Object value) {
         Node currentNode = head;
         for (int index = 0; index < size; index++) {
-            if (value == null && currentNode.getValue() == null) {
-                return index;
-            } else if (value.equals(currentNode.getValue())) {
+            if (isEqualWithNulls(value, currentNode.getValue())){
                 return index;
             }
             currentNode = currentNode.getNext();
@@ -138,11 +135,7 @@ public class LinkedList implements List {
     public int lastIndexOf(Object value) {
         Node currentNode = tail;
         for (int index = size - 1; index >= 0; index--) {
-            if (value == null) {
-                if (currentNode.getValue() == null) {
-                    return index;
-                }
-            } else if (value.equals(currentNode.getValue())) {
+            if (isEqualWithNulls(value, currentNode.getValue())){
                 return index;
             }
             currentNode = currentNode.getPrev();
@@ -178,18 +171,4 @@ public class LinkedList implements List {
         return head;
     }
 
-
-    private void validateIndexForAdd(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Valid index values for add() methods are between 0 and " + size +
-                    " inclusive. Current index value = " + index);
-        }
-    }
-
-    private void validateIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Valid index values are between 0 and " + (size - 1) +
-                    " inclusive. Current index value = " + index);
-        }
-    }
 }
