@@ -1,11 +1,11 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
+import java.util.Iterator;
 import java.util.stream.IntStream;
 
-public class LinkedList extends AbstractList implements List {
+public class LinkedList extends AbstractList {
     private Node tail;
     private Node head;
-
 
     @Override
     public void add(Object value) {
@@ -66,10 +66,13 @@ public class LinkedList extends AbstractList implements List {
     @Override
     public Object get(int index) {
         validateIndex(index);
+        Node result = getNode(index);
+        /*
         Node result = head;
         for (int i = 0; i < index; i++) {
             result = result.getNext();
         }
+        */
         return result.getValue();
     }
 
@@ -104,15 +107,6 @@ public class LinkedList extends AbstractList implements List {
         size = 0;
     }
 
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
     @Override
     public boolean contains(Object value) {
@@ -123,7 +117,7 @@ public class LinkedList extends AbstractList implements List {
     public int indexOf(Object value) {
         Node currentNode = head;
         for (int index = 0; index < size; index++) {
-            if (isEqualWithNulls(value, currentNode.getValue())){
+            if (isEqualWithNulls(value, currentNode.getValue())) {
                 return index;
             }
             currentNode = currentNode.getNext();
@@ -135,12 +129,17 @@ public class LinkedList extends AbstractList implements List {
     public int lastIndexOf(Object value) {
         Node currentNode = tail;
         for (int index = size - 1; index >= 0; index--) {
-            if (isEqualWithNulls(value, currentNode.getValue())){
+            if (isEqualWithNulls(value, currentNode.getValue())) {
                 return index;
             }
             currentNode = currentNode.getPrev();
         }
         return -1;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new LinkedListIterator();
     }
 
     @Override
@@ -162,6 +161,22 @@ public class LinkedList extends AbstractList implements List {
         }
     }
 
+    private Node getNode(int index) {
+        Node node;
+        if (index <= (size / 2)) {
+            node = head;
+            for (int i = 0; i < index; i++) {
+                node = node.getNext();
+            }
+        } else {
+            node = tail;
+            for (int i = size; i > index + 1; i--) {
+                node = node.getPrev();
+            }
+        }
+        return node;
+    }
+
     public Node getTail() {
         return tail;
     }
@@ -169,6 +184,57 @@ public class LinkedList extends AbstractList implements List {
 
     public Node getHead() {
         return head;
+    }
+
+
+    private static class Node {
+        private Object value;
+        private Node prev;
+        private Node next;
+
+        public Node(Object value) {
+            this.value = value;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
+
+        public Node getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node prev) {
+            this.prev = prev;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+    }
+
+    private class LinkedListIterator implements Iterator{
+        Node node = head;
+
+        @Override
+        public boolean hasNext() {
+            return node != null;
+        }
+
+        @Override
+        public Object next() {
+            Object value = node.getValue();
+            node = node.getNext();
+            return value;
+        }
     }
 
 }

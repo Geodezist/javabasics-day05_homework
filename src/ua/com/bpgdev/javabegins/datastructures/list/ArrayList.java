@@ -1,10 +1,11 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
+import java.util.Iterator;
 import java.util.stream.IntStream;
 
 // TDD
 // Ctrl + Shift + T
-public class ArrayList extends AbstractList implements List {
+public class ArrayList extends AbstractList {
     private final int INITIAL_CAPACITY = 5;
     private final int currentCapacity;
     private Object[] array;
@@ -67,16 +68,6 @@ public class ArrayList extends AbstractList implements List {
     }
 
     @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
     public boolean contains(Object value) {
         for (Object o : array) {
             if (value.equals(o)) {
@@ -127,6 +118,25 @@ public class ArrayList extends AbstractList implements List {
             Object[] newArray = new Object[(array.length * 3 / 2 + 1)];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
+        }
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator{
+        int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public Object next() {
+            return array[index++];
         }
     }
 }

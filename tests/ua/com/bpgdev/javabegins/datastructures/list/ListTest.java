@@ -166,12 +166,13 @@ public abstract class ListTest {
 
     }
 
-    public List getListWithZeroElements() {
-        return listWithZeroElements;
-    }
-
-    public List getListWithTenElements() {
-        return listWithTenElements;
+    @Test
+    public void testIterator(){
+        int index = 0;
+        for (Object o: listWithOneHundredElements ) {
+            assertEquals(o, listWithOneHundredElements.get(index));
+            index++;
+        }
     }
 
     public List getListWithOneHundredElements() {

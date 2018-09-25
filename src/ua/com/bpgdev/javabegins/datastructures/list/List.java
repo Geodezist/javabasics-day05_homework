@@ -1,6 +1,6 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
-public interface List {
+public interface List extends Iterable {
     // add value to the end of the list
     // +++
     void add(Object value);

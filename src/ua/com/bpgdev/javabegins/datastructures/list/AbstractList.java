@@ -1,7 +1,15 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
-abstract class AbstractList {
+abstract class AbstractList implements List, Iterable{
     int size;
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
 
     boolean isEqualWithNulls(Object firstObject, Object secondObject) {
         if (firstObject == null) {
