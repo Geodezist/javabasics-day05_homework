@@ -1,6 +1,7 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
 import java.util.Iterator;
+import java.util.StringJoiner;
 import java.util.stream.IntStream;
 
 public class LinkedList extends AbstractList {
@@ -66,14 +67,7 @@ public class LinkedList extends AbstractList {
     @Override
     public Object get(int index) {
         validateIndex(index);
-        Node result = getNode(index);
-        /*
-        Node result = head;
-        for (int i = 0; i < index; i++) {
-            result = result.getNext();
-        }
-        */
-        return result.getValue();
+        return getNode(index).getValue();
     }
 
     public Object getUsingStream(int index) {
@@ -88,14 +82,9 @@ public class LinkedList extends AbstractList {
     @Override
     public Object set(Object value, int index) {
         validateIndex(index);
-        Node currentNode = head;
-        Object result;
-
-        for (int i = 0; i < index; i++) {
-            currentNode = currentNode.getNext();
-        }
-        result = currentNode.getValue();
-        currentNode.setValue(value);
+        Node node = getNode(index);
+        Object result = node.getValue();
+        node.setValue(value);
 
         return result;
     }
@@ -105,12 +94,6 @@ public class LinkedList extends AbstractList {
         head = null;
         tail = null;
         size = 0;
-    }
-
-
-    @Override
-    public boolean contains(Object value) {
-        return indexOf(value) != -1;
     }
 
     @Override
@@ -140,25 +123,6 @@ public class LinkedList extends AbstractList {
     @Override
     public Iterator iterator() {
         return new LinkedListIterator();
-    }
-
-    @Override
-    public String toString() {
-        if (size == 0) {
-            return "[]";
-        }
-
-        Node currentNode = head;
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append('[');
-        for (int i = 0; ; i++) {
-            stringBuilder.append(currentNode.getValue().toString());
-            if (i == size - 1) {
-                return stringBuilder.append(']').toString();
-            }
-            stringBuilder.append(", ");
-            currentNode = currentNode.getNext();
-        }
     }
 
     private Node getNode(int index) {

@@ -8,11 +8,13 @@ import static org.junit.Assert.*;
 public class HashMapTest {
     private HashMap hashMap;
     private HashMap hashMapForPutAll;
+    private HashMap hashMapWithNulls;
 
     @Before
     public void before() {
         hashMap = new HashMap();
         hashMapForPutAll = new HashMap();
+        hashMapWithNulls = new HashMap();
 
         hashMap.put(1, "A");
         hashMap.put(2, "B");
@@ -30,7 +32,9 @@ public class HashMapTest {
         hashMapForPutAll.put(101,"YY");
         hashMapForPutAll.put(102,"YY");
 
-
+        for (int index = 0; index < 10; index++) {
+            hashMapWithNulls.put(null, index);
+        }
     }
 
     @Test
@@ -42,6 +46,9 @@ public class HashMapTest {
         assertEquals("C", hashMap.put(3, "X"));
 
         assertEquals(7, hashMap.size());
+
+        assertEquals(1, hashMapWithNulls.size());
+        assertEquals(9, hashMapWithNulls.get(null));
     }
 
     @Test

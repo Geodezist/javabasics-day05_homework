@@ -1,7 +1,13 @@
 package ua.com.bpgdev.javabegins.datastructures.list;
 
-abstract class AbstractList implements List, Iterable{
+import java.util.StringJoiner;
+
+abstract class AbstractList implements List {
     int size;
+
+    public boolean contains(Object value) {
+        return indexOf(value) != -1;
+    }
 
     public boolean isEmpty() {
         return size == 0;
@@ -9,6 +15,19 @@ abstract class AbstractList implements List, Iterable{
 
     public int size() {
         return size;
+    }
+
+    public String toString() {
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringJoiner stringJoiner = new StringJoiner(", ","[","]");
+        for (Object o: this ) {
+            stringJoiner.add(o.toString());
+        }
+
+        return stringJoiner.toString();
     }
 
     boolean isEqualWithNulls(Object firstObject, Object secondObject) {

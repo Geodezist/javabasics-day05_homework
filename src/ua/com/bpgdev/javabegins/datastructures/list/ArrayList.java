@@ -68,16 +68,6 @@ public class ArrayList extends AbstractList {
     }
 
     @Override
-    public boolean contains(Object value) {
-        for (Object o : array) {
-            if (value.equals(o)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public int indexOf(Object value) {
         return IntStream.range(0, size).filter(index -> isEqualWithNulls(value, array[index])).findFirst().orElse(-1);
     }

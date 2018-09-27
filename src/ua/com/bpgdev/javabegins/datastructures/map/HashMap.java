@@ -2,49 +2,48 @@ package ua.com.bpgdev.javabegins.datastructures.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HashMap implements Map {
     private static final int INITIAL_BUCKET_COUNT = 4;
-    static final double DEFAULT_LOAD_FACTOR = 0.75f;
-    private double treshhold;
+    private static final double DEFAULT_LOAD_FACTOR = 0.75f;
+    private double threshold;
     private ArrayList<Entry>[] buckets;
     private int size;
 
     public HashMap() {
         buckets = new ArrayList[INITIAL_BUCKET_COUNT];
-        treshhold = INITIAL_BUCKET_COUNT * DEFAULT_LOAD_FACTOR;
+        threshold = INITIAL_BUCKET_COUNT * DEFAULT_LOAD_FACTOR;
     }
 
     @Override
     public Object put(Object key, Object value) {
         if (key == null) {
-            /*
-            TODO: Implement null key logic with return from the method in this block
-            TODO: Zero (0) bucket is used for null key item
-            * */
-            return null;
+            return putKeyEqualNull(value);
         }
 
-        Entry entry = new Entry(key, value);
-        ArrayList<Entry> bucket = buckets[getBucketIndex(key)];
+        int bucketIndex = getBucketIndex(key);
+        ArrayList<Entry> bucket = buckets[bucketIndex];
 
         if (bucket != null) {
             for (Entry e : bucket) {
-                if (e.getKey() == key && !e.getValue().equals(value)) {
-                    Object oldValue = e.getValue();
-                    e.setValue(value);
-                    return oldValue;
+                if (Objects.equals(key, e.getKey())) {
+                    if (Objects.equals(e.getValue(), value)) {
+                        return value;
+                    } else {
+                        Object oldValue = e.getValue();
+                        e.setValue(value);
+                        return oldValue;
+                    }
                 }
             }
-            bucket.add(entry);
-            size++;
-            return null;
+        } else {
+            buckets[bucketIndex] = bucket = new ArrayList<>();
         }
 
-        buckets[getBucketIndex(key)] = new ArrayList();
-        buckets[getBucketIndex(key)].add(entry);
+        bucket.add(new Entry(key, value));
         size++;
-        if (size >= (treshhold)) {
+        if (size >= (threshold)) {
             increaseHashMap();
         }
         return null;
@@ -64,7 +63,7 @@ public class HashMap implements Map {
 
         if (bucket != null) {
             for (Entry e : bucket) {
-                if (e.getKey() == key) {
+                if (Objects.equals(key, e.getKey())) {
                     return null;
                 }
             }
@@ -72,7 +71,7 @@ public class HashMap implements Map {
             size++;
             return value;
         }
-        buckets[getBucketIndex(key)] = new ArrayList();
+        buckets[getBucketIndex(key)] = new ArrayList<>();
         buckets[getBucketIndex(key)].add(entry);
         size++;
         return value;
@@ -91,18 +90,18 @@ public class HashMap implements Map {
 
     @Override
     public Object get(Object key) {
+        int bucketIndex;
         if (key == null) {
-            /*
-            TODO: Implement null key logic with return from the method in this block
-            TODO: Zero (0) bucket is used for null key item
-            * */
-            return null;
+            bucketIndex = 0;
+        } else {
+            bucketIndex = getBucketIndex(key);
         }
-        ArrayList<Entry> bucket = buckets[getBucketIndex(key)];
+
+        ArrayList<Entry> bucket = buckets[bucketIndex];
 
         if (bucket != null) {
             for (Entry e : bucket) {
-                if (e.getKey() == key) {
+                if (Objects.equals(key, e.getKey())) {
                     return e.getValue();
                 }
             }
@@ -123,7 +122,7 @@ public class HashMap implements Map {
         if (bucket != null) {
             Entry entry = null;
             for (Entry e : bucket) {
-                if (e.getKey() == key) {
+                if (Objects.equals(key, e.getKey())) {
                     entry = e;
                 }
             }
@@ -173,18 +172,17 @@ public class HashMap implements Map {
     }
 
     private int getBucketIndex(Object key) {
-        return (key.hashCode() % buckets.length);
+        return Math.abs(key.hashCode() % buckets.length);
     }
 
     private void increaseHashMap() {
-        //System.out.println("Increase array!");
 
         ArrayList<Entry>[] oldBuckets = new ArrayList[buckets.length];
         System.arraycopy(buckets, 0, oldBuckets, 0, buckets.length);
 
         buckets = new ArrayList[buckets.length * 2];
         size = 0;
-        treshhold = buckets.length * DEFAULT_LOAD_FACTOR;
+        threshold = buckets.length * DEFAULT_LOAD_FACTOR;
 
         for (ArrayList<Entry> bucket : oldBuckets) {
             if (bucket != null)
@@ -194,4 +192,45 @@ public class HashMap implements Map {
         }
 
     }
+
+    private Object putKeyEqualNull(Object value) {
+        if (buckets[0] != null) {
+            for (Entry e : buckets[0]) {
+                if (e.key == null) {
+                    Object oldValue = e.getValue();
+                    e.setValue(value);
+                    return oldValue;
+                }
+            }
+        } else {
+            buckets[0] = new ArrayList<>();
+        }
+        buckets[0].add(new Entry(null, value));
+        size++;
+        return null;
+    }
+
+    private static class Entry {
+        private Object key;
+        private Object value;
+
+        public Entry(Object key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public Object getKey() {
+            return key;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+    }
+
+
 }
