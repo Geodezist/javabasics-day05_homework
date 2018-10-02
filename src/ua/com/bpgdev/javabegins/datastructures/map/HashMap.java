@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HashMap implements Map {
+public class  HashMap<K,V> implements Map {
     private static final int INITIAL_BUCKET_COUNT = 4;
     private static final double DEFAULT_LOAD_FACTOR = 0.75f;
     private double threshold;
-    private ArrayList<Entry>[] buckets;
+    private ArrayList<Entry<K, V>>[] buckets;
     private int size;
 
+    @SuppressWarnings("unchecked")
     public HashMap() {
         buckets = new ArrayList[INITIAL_BUCKET_COUNT];
         threshold = INITIAL_BUCKET_COUNT * DEFAULT_LOAD_FACTOR;
@@ -23,7 +24,7 @@ public class HashMap implements Map {
         }
 
         int bucketIndex = getBucketIndex(key);
-        ArrayList<Entry> bucket = buckets[bucketIndex];
+        ArrayList<Entry<K,V>> bucket = buckets[bucketIndex];
 
         if (bucket != null) {
             for (Entry e : bucket) {
@@ -59,7 +60,7 @@ public class HashMap implements Map {
             return null;
         }
         Entry entry = new Entry(key, value);
-        ArrayList<Entry> bucket = buckets[getBucketIndex(key)];
+        ArrayList<Entry<K,V>> bucket = buckets[getBucketIndex(key)];
 
         if (bucket != null) {
             for (Entry e : bucket) {
@@ -67,12 +68,11 @@ public class HashMap implements Map {
                     return null;
                 }
             }
-            bucket.add(entry);
-            size++;
-            return value;
+        } else {
+            buckets[getBucketIndex(key)] = bucket = new ArrayList<>();
         }
-        buckets[getBucketIndex(key)] = new ArrayList<>();
-        buckets[getBucketIndex(key)].add(entry);
+
+        bucket.add(entry);
         size++;
         return value;
     }
@@ -97,7 +97,7 @@ public class HashMap implements Map {
             bucketIndex = getBucketIndex(key);
         }
 
-        ArrayList<Entry> bucket = buckets[bucketIndex];
+        ArrayList<Entry<K,V>> bucket = buckets[bucketIndex];
 
         if (bucket != null) {
             for (Entry e : bucket) {
@@ -118,7 +118,7 @@ public class HashMap implements Map {
             * */
             return null;
         }
-        ArrayList<Entry> bucket = buckets[getBucketIndex(key)];
+        ArrayList<Entry<K,V>> bucket = buckets[getBucketIndex(key)];
         if (bucket != null) {
             Entry entry = null;
             for (Entry e : bucket) {
@@ -138,7 +138,7 @@ public class HashMap implements Map {
     @Override
     public List keys() {
         ArrayList<Object> keysList = new ArrayList<>();
-        for (ArrayList<Entry> bucket : buckets) {
+        for (ArrayList<Entry<K,V>> bucket : buckets) {
             if (bucket != null) {
                 for (Entry e : bucket) {
                     keysList.add(e.getKey());
@@ -151,7 +151,7 @@ public class HashMap implements Map {
     @Override
     public List values() {
         ArrayList<Object> keysList = new ArrayList<>();
-        for (ArrayList<Entry> bucket : buckets) {
+        for (ArrayList<Entry<K,V>> bucket : buckets) {
             if (bucket != null) {
                 for (Entry e : bucket) {
                     keysList.add(e.getValue());
@@ -210,11 +210,11 @@ public class HashMap implements Map {
         return null;
     }
 
-    private static class Entry {
-        private Object key;
-        private Object value;
+    private static class Entry<K,V> {
+        private K key;
+        private V value;
 
-        public Entry(Object key, Object value) {
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -223,7 +223,7 @@ public class HashMap implements Map {
             return key;
         }
 
-        public void setValue(Object value) {
+        public void setValue(V value) {
             this.value = value;
         }
 
